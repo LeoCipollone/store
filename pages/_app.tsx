@@ -23,8 +23,6 @@ const App: React.FC<AppProps> = ({Component, pageProps}) => {
       <Head>
         <title>Mi tienda online - Helen Tejidos</title>
         <meta content="initial-scale=1.0, width=device-width" name="viewport" />
-        <meta content="Leo" name="author" />
-        <meta content="Leo Cipollone" name="copyright" />
       </Head>
       <ChakraProvider theme={theme}>
         <Container backgroundColor="white" borderRadius="sm" maxWidth="container.xl" padding={4}>
