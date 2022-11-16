@@ -10,7 +10,7 @@
     "integration": "cypress run"
   },
   "dependencies": {
-    "@chakra-ui/icons": "^1.1.1",
+    "@chakra-ui/icons": "^1.1.7",
     "@chakra-ui/react": "^1.8.9",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",

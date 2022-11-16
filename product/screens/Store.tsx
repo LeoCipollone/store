@@ -1,40 +1,80 @@
 import * as React from "react";
-import {Button, Flex, Grid, Stack, Text} from "@chakra-ui/react";
+import { Button, Flex, Grid, Stack, Text, Input, Select } from "@chakra-ui/react";
 
-import type {Product} from "../types";
+import type { Product } from "../types";
 import ProductCard from "../components/ProductCard";
 import CartDrawer from "../../cart/components/CartDrawer/CartDrawer";
-import {useCart} from "../../cart/context";
-import {Field} from "../../cart/types";
+import { useCart } from "../../cart/context";
+import { Field } from "../../cart/types";
 
 interface Props {
   products: Product[];
   fields: Field[];
 }
 
-const StoreScreen: React.FC<Props> = ({products, fields}) => {
-  const [{total, quantity}, {addItem}] = useCart();
+const StoreScreen: React.FC<Props> = ({ products, fields }) => {
+  const [{ total, quantity }, { addItem }] = useCart();
   const [isCartOpen, toggleCart] = React.useState<boolean>(false);
+  const [inputValue, setInputValue] = React.useState("");
+  const [activeFilter, setActiveFilter] = React.useState("");
 
   return (
     <>
       <Stack spacing={6}>
-        {products.length ? (
-          <Grid
-            gridGap={8}
-            templateColumns={{
-              base: "repeat(auto-fill, minmax(240px, 1fr))",
-              sm: "repeat(auto-fill, minmax(360px, 1fr))",
+        <Flex gap='4' flexDirection={{sm: "column", md: "row",}}>
+            <Input 
+            py={3}
+            flex={{
+              sm: "1",
+              md: "2",
+              lg: "4"
             }}
-          >
-            {products.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                onAdd={(product: Product) => addItem(Symbol(), {...product, quantity: 1})}
-              />
-            ))}
-          </Grid>
+              type="text"
+              onChange={(e) => setInputValue(e.target.value)}
+              placeholder="Buscar artículo" />
+            <Select 
+              flex={{
+                sm: "1",
+                md: "1",
+                lg: "1"
+              }}
+              onChange={(e) => setActiveFilter(e.target.value)}
+              placeholder='Todos los productos'>
+                <option value="peluches">Peluches</option>
+                <option value="sonajeros">Sonajeros</option>
+                <option value="llaveros">Llaveros</option>
+                <option value="gorros">Gorros</option>
+                <option value="bufandas">Bufandas</option>
+                <option value="mascotas">Mascotas</option>
+            </Select>
+        </Flex>
+        {products.length ? (
+          <>
+            <Grid
+              gridGap={8}
+              templateColumns={{
+                sm: "repeat(auto-fill, minmax(240px, 1fr))",
+                md: "repeat(auto-fill, minmax(240px, 1fr))",
+                lg: "repeat(auto-fill, minmax(240px, 1fr))"
+              }}>
+              {products
+                ?.filter((product) =>
+                  product.description.toLowerCase().includes(inputValue.toLowerCase()) ||
+                  product.title.toLowerCase().includes(inputValue.toLowerCase())
+                )
+                .filter((product) => product.category.toLowerCase().includes(activeFilter))
+                .map((el) => {
+                  return (
+                    <ProductCard
+                      key={el.id}
+                      product={el}
+                      onAdd={(product: Product) => addItem(Symbol(), { ...product, quantity: 1 })}
+                    />
+                  )
+                })
+              }
+            </Grid>
+          </>
         ) : (
           <Text color="gray.500" fontSize="lg" margin="auto">
             No hay productos
@@ -55,7 +95,7 @@ const StoreScreen: React.FC<Props> = ({products, fields}) => {
               color="color"
               data-testid="show-cart"
               size="lg"
-              width={{base: "100%", sm: "fit-content"}}
+              width={{ base: "100%", sm: "fit-content" }}
               onClick={() => toggleCart(true)}
             >
               <Stack alignItems="center" direction="row" spacing={6}>

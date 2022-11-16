@@ -18,7 +18,7 @@ const Details: React.FC<Props> = ({cart, onChange}) => {
           <Stack width="100%">
             <Stack alignItems="flex-start" direction="row" justifyContent="space-between">
               <Stack spacing={0}>
-                <Text fontSize="lg" fontWeight="500">
+                <Text fontSize="lg" fontWeight="600">
                   {item.title}
                 </Text>
                 {Boolean(item.options) && (
@@ -47,7 +47,7 @@ const Details: React.FC<Props> = ({cart, onChange}) => {
                 {" "}
                 -{" "}
               </Button>
-              <Text data-testid="quantity" fontWeight="500">
+              <Text data-testid="quantity" fontWeight="500" color="gray.500" fontStyle="italic">
                 {item.quantity}
               </Text>
               <Button

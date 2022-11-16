@@ -1,16 +1,7 @@
-.modal::-webkit-scrollbar {
-    width: 14px;
-  }
-  .modal::-webkit-scrollbar-thumb {
-    border-top: 15px solid rgba(0, 0, 0, 0);
-    border-bottom: 15px solid rgba(0, 0, 0, 0);
-    border-right: 6px solid rgba(0, 0, 0, 0);
-    background-clip: padding-box;
-    background-color: gray;
-  }
 .cursor {
     cursor: pointer;
 }
+
 .darkBG {
     background-color: rgba(0, 0, 0, 0.3);
     width: 100%;
@@ -37,7 +28,6 @@
     width: fit-content;
     height: fit-content;
     max-height: 90vh;
-    overflow-y: scroll;
     background: white;
     color: black;
     border-radius: 16px;
@@ -54,20 +44,33 @@
 }
 
 .modalContent {
-    display: flex;
-    flex-direction: row;
-    padding: 0 20px;
-    font-size: 14px;
-    color: #2c3e50;
-    text-align: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    width: max-content;
-    max-width: 90vw;
+    position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.producImages {
-    margin: 5px;
+.rightArrow {
+    position: absolute;
+    top: 40%;
+    right: 15px;
+  }
+
+  .leftArrow {
+    position: absolute;
+    top: 40%;
+    left: 15px;
+  }
+
+.productImages {
+    width: fit-content;
+    max-width: 60vw;
+  height: fit-content;
+  max-height: 70vh;
+  object-fit: cover;
+  margin: 5px 20px;
+  border-radius: 10px;
 }
+
 .productDescription {
     font-size: 14px;
     font-weight: bold;
@@ -75,6 +78,7 @@
     margin-top: 5px;
     color: #333;
 }
+
 .modalActions {
     display: flex;
     justify-content: center;
@@ -82,13 +86,14 @@
 }
 
 .closeButton {
-    position: absolute;
+    position: absolute !important;
     right: 20px;
     top: 13px;
-    font-size: 12px;
-    font-weight: bold;
-    background-color: #dc3545;
-    padding: 2px 7px;
-    border-radius: 7px;
+    min-width: 25px !important;
+    height: 25px !important;
+    padding: 0;
     color: #fff;
+}
+.closeButton svg {
+    font-size: 10px;
 }

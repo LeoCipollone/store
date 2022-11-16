@@ -53,7 +53,7 @@ const CartItemDrawer: React.FC<Props> = ({item, onClose, onSubmit, ...props}) =>
         <DrawerContent paddingTop={4}>
           <DrawerHeader paddingX={4}>
             <Stack alignItems="center" direction="row" justifyContent="space-between">
-              <Text fontSize={{base: "2xl", sm: "3xl"}} fontWeight="500">
+              <Text color="#0070f3" fontSize={{base: "2xl", sm: "3xl"}} fontWeight="700">
                 {item.title}
               </Text>
               <CloseButton onClick={onClose} />
@@ -77,7 +77,7 @@ const CartItemDrawer: React.FC<Props> = ({item, onClose, onSubmit, ...props}) =>
                 <Stack divider={<Divider />} spacing={4}>
                   {options.map((category) => (
                     <Stack key={category.title} width="100%">
-                      <Text fontSize="xl" fontWeight="500">
+                      <Text fontSize="xl" fontWeight="700">
                         {category.title}
                       </Text>
                       <RadioGroup
@@ -94,7 +94,7 @@ const CartItemDrawer: React.FC<Props> = ({item, onClose, onSubmit, ...props}) =>
                               <Stack direction="row" justifyContent="space-between" width="100%">
                                 <Text>{option.title}</Text>
                                 {Boolean(option.price) && (
-                                  <Text fontWeight="500">{parseCurrency(option.price)}</Text>
+                                  <Text color="green.500" fontWeight="700">+ {parseCurrency(option.price)}</Text>
                                 )}
                               </Stack>
                             </Radio>
@@ -120,8 +120,8 @@ const CartItemDrawer: React.FC<Props> = ({item, onClose, onSubmit, ...props}) =>
                 fontWeight="500"
                 justifyContent="space-between"
               >
-                <Text>Total</Text>
-                <Text>{total}</Text>
+                <Text fontWeight="700">Total</Text>
+                <Text fontWeight="700" color="green.500">{total}</Text>
               </Stack>
               <Button
                 _hover={{

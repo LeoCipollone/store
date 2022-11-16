@@ -1,6 +1,7 @@
 import React from "react";
-import { Stack, Button, Text, Image } from "@chakra-ui/react";
-import { Carousel, LeftButton, Provider, RightButton } from "chakra-ui-carousel";
+import { Stack, Button, Text, Image, IconButton } from "@chakra-ui/react";
+import { ArrowBackIcon, ArrowForwardIcon, CloseIcon } from '@chakra-ui/icons'
+
 import { parseCurrency } from "../../utils/currency";
 import { CartItem } from "../../cart/types";
 import { Product } from "../types";
@@ -15,7 +16,18 @@ const ProductCard: React.FC<Props> = ({ product, onAdd }) => {
   const [isModalOpen, toggleModal] = React.useState(false);
   const [productOpen, setProductOpen] = React.useState(false);
   const cartItem = React.useMemo<CartItem>(() => ({ ...product, quantity: 1 }), [product]);
-  var productImages = product.image.split(",")
+  let productImages = product.image.split(",")
+  const [current, setCurrent] = React.useState(0);
+  const length = productImages.length;
+
+  const nextSlide = () => {
+    setCurrent(current === length - 1 ? 0 : current + 1);
+  };
+
+  const prevSlide = () => {
+    setCurrent(current === 0 ? length - 1 : current - 1);
+  };
+
 
   return (
     <>
@@ -30,24 +42,23 @@ const ProductCard: React.FC<Props> = ({ product, onAdd }) => {
         direction="row"
         justifyContent="space-between"
         spacing={3}
-        onClick={() => setProductOpen(true)}
-        className={styles.cursor}
       >
-        <Stack direction="row" padding={2} spacing={4} width="100%">
+        <Stack direction="column" padding={2} spacing={4} width="100%">
           <Image
             backgroundColor="white"
             borderRadius="10"
-            height={{ base: 24, sm: 36 }}
+            height={{ md: "56", sm: "48", base: "48" }}
             loading="lazy"
-            minWidth={{ base: 24, sm: 36 }}
+            minWidth={{ md: "40", sm: "32" }}
             objectFit="cover"
             src={product.image}
-            width={{ base: 24, sm: 36 }}
+            width="100%"
             onClick={() => setProductOpen(true)}
+            className={styles.cursor}
           />
           <Stack justifyContent="space-between" spacing={1} width="100%">
-            <Stack spacing={1}>
-              <Text fontWeight="500" onClick={() => setProductOpen(true)}>
+            <Stack spacing={1} onClick={() => setProductOpen(true)} className={styles.cursor}>
+              <Text fontWeight="700" onClick={() => setProductOpen(true)}>
                 {product.title}
               </Text>
               <Text color="gray.500" fontSize="sm">
@@ -67,7 +78,7 @@ const ProductCard: React.FC<Props> = ({ product, onAdd }) => {
                 }}
                 backgroundColor="bg"
                 color="color"
-                size="xs"
+                size="sm"
                 onClick={() => (product.options ? toggleModal(true) : onAdd(cartItem))}
               >
                 Agregar
@@ -76,30 +87,56 @@ const ProductCard: React.FC<Props> = ({ product, onAdd }) => {
           </Stack>
         </Stack>
       </Stack>
-      {productOpen && (
+      {productOpen && !isModalOpen && (
         <>
           <div onClick={() => setProductOpen(false)} className={styles.darkBG}></div>
           <div className={styles.centered}>
             <div className={styles.modal}>
-              <button className={styles.closeButton} onClick={() => setProductOpen(false)}>X</button>
+            
+              <IconButton
+                  colorScheme='red'
+                  aria-label='Search database'
+                  className={styles.closeButton} 
+                  onClick={() => setProductOpen(false)}
+                  icon={<CloseIcon />}
+                  p={0}
+                />
               <div className={styles.modalHeader}>
                 <h4 className={styles.productTitle}>{product.title}</h4>
               </div>
               <div className={styles.modalContent}>
+                <IconButton
+                  colorScheme='blue'
+                  aria-label='Search database'
+                  className={styles.leftArrow}
+                  onClick={prevSlide}
+                  icon={<ArrowBackIcon />}
+                />
+               
                 {productImages.map((el, index) => (
-                  <Image
-                  key={index}
-                  backgroundColor="white"
-                  borderRadius="10"
-                  loading="lazy"
-                  maxWidth={{ base: 64, sm: 72 }}
-                  maxHeight={{ base: 64, sm: 72 }}
-                  src={el}
-                  className={styles.producImages}
-                  /> 
+                  <div key={index} className={styles.carrouselItem}>
+                    {index === current && (
+                      <Image
+                        key={index}
+                        backgroundColor="white"
+                        borderRadius="10"
+                        loading="lazy"
+                        src={el}
+                        className={styles.productImages}
+
+                      />
+                    )}
+                  </div>
                 ))}
+                 <IconButton
+                  colorScheme='blue'
+                  aria-label='Search database'
+                  className={styles.rightArrow}
+                  onClick={nextSlide}
+                  icon={<ArrowForwardIcon />}
+                />
               </div>
-                  <p className={styles.productDescription}>{product.description}</p>
+              <p className={styles.productDescription}>{product.description}</p>
               <div className={styles.modalActions}>
                 <Button
                   _hover={{
@@ -110,7 +147,7 @@ const ProductCard: React.FC<Props> = ({ product, onAdd }) => {
                   }}
                   backgroundColor="bg"
                   color="color"
-                  size="xs"
+                  size="sm"
                   onClick={() => (product.options ? toggleModal(true) : onAdd(cartItem))}
                 >
                   Agregar

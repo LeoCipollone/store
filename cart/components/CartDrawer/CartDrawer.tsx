@@ -73,7 +73,7 @@ const CartDrawer: React.FC<Props> = ({onClose, isOpen, fields, ...props}) => {
                     onClick={() => setCurrentStep("details")}
                   />
                 )}
-                <Text fontSize={{base: "2xl", sm: "3xl"}} fontWeight="500">
+                <Text color="#0070f3" fontSize={{base: "2xl", sm: "3xl"}} fontWeight="700">
                   Tu pedido
                 </Text>
               </Stack>
@@ -97,8 +97,8 @@ const CartDrawer: React.FC<Props> = ({onClose, isOpen, fields, ...props}) => {
                   fontWeight="500"
                   justifyContent="space-between"
                 >
-                  <Text>Total</Text>
-                  <Text color="green">{total}</Text>
+                  <Text fontWeight={700}>Total</Text>
+                  <Text fontWeight={700} color="green">{total}</Text>
                 </Stack>
                 <Button
                   _hover={{
